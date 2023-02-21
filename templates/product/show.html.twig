@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row justify-content-center">
+    <main class="mt-5 pt-4">
+        <div class="container dark-grey-text mt-5">
+            <h2>{{ product.name }}</h2>
+            <div class="row wow fadeIn">
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+                    {% if product.images %}
+
+                    {% else %}
+                        <img src="https://via.placeholder.com/240x240/5fa9f8/efefef"  style="width: 300px; height: 250px" class="img-fluid mx-auto d-block" alt="Card image cap">
+                    {%endif %}
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+
+                    <!--Content-->
+                    <div class="p-4">
+
+                        <div class="mb-3">
+                            <h3 class="text-primary">{{ product.category.name }}</h3>
+                        </div>
+
+                        <p class="lead">
+
+                            <span>{{ product.price }} zł</span>
+                        </p>
+
+                        <p class="lead font-weight-bold">Description:</p>
+
+                        <p>{{ product.description}}</p>
+
+                        <div class="d-flex justify-content-left">
+                            <!-- Default input -->
+                            <!-- <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
+                            <button class="btn btn-success add-cart-button" data-id="" ></button>
+                        </div>
+
+                    </div>
+                    <!--Content-->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+            <hr>
+
+            <!--Grid row-->
+            <div class="row d-flex justify-content-center wow fadeIn">
+
+                <h4 class="my-4 h4"></h4>
+                <div class="row">
+
+                </div>
+
+            </div>
+            <!--Grid row-->
+        </div>
+    </main>
+</div>
+</div>
+{% endblock %}
