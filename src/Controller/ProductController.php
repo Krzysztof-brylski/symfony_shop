@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Services\FileService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,25 +34,33 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'product.show')]
-    public function show($id): Response
+    #[ParamConverter('product', options: ['mapping' => ['id' => 'id']])]
+    public function show(Product $product): Response
     {
         return $this->render('product/show.html.twig', [
-            'product' => $this->productRepo->find($id),
+            'product' => $product,
         ]);
     }
 
-    #[Route('/touch/product/{id}', name: 'product.create',defaults: ['id'=>null])]
-    public function create(Request $request,$id): Response
+    #[Route('/touch/product/{id}', name: 'product.touch',defaults: ['id'=>null], )]
+    #[ParamConverter('product', options: ['mapping' => ['id' => 'id']],isOptional: true)]
+    public function touch(Request $request,?Product $product): Response
     {
-        $id == null ? $product= new Product() : $product= $this->productRepo->find($id);
+        $product == null ? $product= new Product() : null;
 
         $form = $this->createForm(ProductType::class, $product);
         $data=$form->handleRequest($request);
         if($form->isSubmitted() and $form->isValid()){
             if($image=$form->get('images')->getData()){
                 try {
-                    $path=FileService::saveFile($this->getParameter('storage_directory'),$image);
+
+                    $path=FileService::saveFile(
+                        $this->getParameter('storage_directory'),
+                        $image
+                    );
+
                     $product->setImages($path);
+
                 }catch (FileException $exception){
                     return $this->json(['error'=>$exception->getMessage()],500);
                 }
@@ -59,7 +68,8 @@ class ProductController extends AbstractController
             $this->productRepo->save($product,true);
             return $this->redirectToRoute('product.index');
         }
-        if($id == null){
+
+        if($product == null){
             return $this->render('product/create.html.twig', [
                 'form' => $form->createView()
             ]);
@@ -69,10 +79,10 @@ class ProductController extends AbstractController
         ]);
     }
     #[Route('/delete/product/{id}', name: 'product.delete')]
-    public function delete($id): Response
+    public function delete(Product $product): Response
     {
         $this->productRepo->remove(
-            $this->productRepo->find($id),
+            $product,
             true
         );
 
