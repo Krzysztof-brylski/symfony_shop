@@ -22,8 +22,8 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(nullable: true)]
-    private array $images = [];
+    #[ORM\Column(length: 255,nullable: true)]
+    private ?string $images = null;
 
     #[ORM\Column]
     private ?int $quantity = null;
@@ -73,12 +73,12 @@ class Product
         return $this;
     }
 
-    public function getImages(): array
+    public function getImages():?string
     {
         return $this->images;
     }
 
-    public function setImages(?array $images): self
+    public function setImages(?string $images): self
     {
         $this->images = $images;
 

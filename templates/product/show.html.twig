@@ -12,6 +12,7 @@
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
                     {% if product.images %}
+                        <img src="{{ asset('uploads/product_images/'~product.images) }}"  style="width: 300px; height: 250px" class="img-fluid mx-auto d-block" alt="Card image cap">
 
                     {% else %}
                         <img src="https://via.placeholder.com/240x240/5fa9f8/efefef"  style="width: 300px; height: 250px" class="img-fluid mx-auto d-block" alt="Card image cap">
