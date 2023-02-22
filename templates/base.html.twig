@@ -15,6 +15,23 @@
         {% endblock %}
     </head>
     <body>
+        {% block message %}
+            <div class="row">
+                {% for key ,message in app.flashes() %}
+
+                        <div class="col-12 my-1">
+                            <div class="alert {% if key == "Error"  %} alert-danger {% else %} alert-success {%endif%} alert-dismissible fade show" role="alert">
+
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                {{message[0]}}
+                            </div>
+                        </div>
+
+                {% endfor %}
+            </div>
+        {% endblock %}
+
+
         {% block body %}{% endblock %}
     </body>
 </html>

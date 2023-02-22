@@ -33,6 +33,15 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/list/product', name: 'product.list')]
+    public function list(): Response
+    {
+        return $this->render('product/list.html.twig', [
+            'products' => $this->productRepo->findAll(),
+        ]);
+    }
+
+
     #[Route('/product/{id}', name: 'product.show')]
     #[ParamConverter('product', options: ['mapping' => ['id' => 'id']])]
     public function show(Product $product): Response
@@ -62,21 +71,20 @@ class ProductController extends AbstractController
                     $product->setImages($path);
 
                 }catch (FileException $exception){
-                    return $this->json(['error'=>$exception->getMessage()],500);
+                    $this->addFlash('Error',$exception->getMessage());
+                    return $this->redirectToRoute('product.list');
                 }
             }
             $this->productRepo->save($product,true);
-            return $this->redirectToRoute('product.index');
+            $this->addFlash('Success','Product touched');
+            return $this->redirectToRoute('product.list');
         }
 
-        if($product == null){
-            return $this->render('product/create.html.twig', [
-                'form' => $form->createView()
-            ]);
-        }
-        return $this->render('product/edit.html.twig', [
-            'form' => $form->createView()
+        return $this->render('product/touch.html.twig', [
+            'form' => $form->createView(),
+            'acton'=>($product->getId() == null ? "create": "edit"),
         ]);
+
     }
     #[Route('/delete/product/{id}', name: 'product.delete')]
     public function delete(Product $product): Response
@@ -85,7 +93,7 @@ class ProductController extends AbstractController
             $product,
             true
         );
-
+        $this->addFlash('Success','product deleted');
         return $this->redirectToRoute('product.index');
     }
 

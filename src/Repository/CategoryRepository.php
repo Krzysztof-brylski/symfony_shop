@@ -39,6 +39,18 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAllWithCount(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->join('Product')
+            ->select('count(p.id)')
+            ->select()
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */

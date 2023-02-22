@@ -32,7 +32,9 @@ class ProductType extends AbstractType
                 "label"=>false
             ))
             ->add('price',NumberType::class,array(
-                "attr"=>["p-1"],
+                "attr"=>[
+                    'class'=>'form-control '
+                ],
                 "label"=>false
             ))
             ->add('images',FileType::class,array(

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product list{% endblock %}
+
+{% block body %}
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 order-md-2 col-lg-9">
+            <div class="d-flex m-5 justify-content-center ">
+                <h2>Create New Product</h2>
+                <a class="btn btn-success" href="{{ path('product.touch') }}">
+                    Create
+                </a>
+            </div>
+            <div class="container-fluid d-flex justify-content-center align-content-center">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in products  %}
+                        <tr>
+                            <th scope="row">{{product.id}}</th>
+                            <td>{{product.name}}</td>
+                            <td>{{product.description}}</td>
+                            <td>{{product.price}}</td>
+                            <td>{{product.quantity}}</td>
+                            <td>{{product.getCategory().name}}</td>
+                            <td>
+                                <a class="btn btn-danger" href="{{ path('product.delete',{'id':product.id}) }}">
+                                    Delete
+                                </a>
+
+                                <a class="btn btn-info" href="{{ path('product.touch',{'id':product.id}) }}">
+                                    Update
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
