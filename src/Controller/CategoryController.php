@@ -5,19 +5,20 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[IsGranted('ROLE_ADMIN')]
 class CategoryController extends AbstractController
 {
     private CategoryRepository $categoryRepo;
 
     public function __construct(CategoryRepository $categoryRepository){
         $this->categoryRepo=$categoryRepository;
-
     }
 
     #[Route('/category', name: 'category.index')]

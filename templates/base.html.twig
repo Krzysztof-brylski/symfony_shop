@@ -15,6 +15,41 @@
         {% endblock %}
     </head>
     <body>
+        <nav class="d-flex justify-content-between py-2 px-5" style="background-color:#f8f9fa; ">
+            <div>
+                <img src="{{ asset("img/logo.png") }}">
+            </div>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+                    <span class="navbar-toggler-icon">OPEN</span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav   me-auto">
+
+
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+
+                        {% if app.user  %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+                            </li>
+                        {%  endif %}
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
         {% block message %}
             <div class="row">
                 {% for key ,message in app.flashes() %}

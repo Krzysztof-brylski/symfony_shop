@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Services\FileService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -34,6 +35,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/list/product', name: 'product.list')]
+    #[isGranted('ROLE_ADMIN')]
     public function list(): Response
     {
         return $this->render('product/list.html.twig', [
@@ -51,6 +53,7 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[isGranted('ROLE_ADMIN')]
     #[Route('/touch/product/{id}', name: 'product.touch',defaults: ['id'=>null], )]
     #[ParamConverter('product', options: ['mapping' => ['id' => 'id']],isOptional: true)]
     public function touch(Request $request,?Product $product): Response
@@ -86,6 +89,8 @@ class ProductController extends AbstractController
         ]);
 
     }
+
+    #[isGranted('ROLE_ADMIN')]
     #[Route('/delete/product/{id}', name: 'product.delete')]
     public function delete(Product $product): Response
     {
